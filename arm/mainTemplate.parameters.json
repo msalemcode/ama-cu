@@ -1,0 +1,27 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "vmNamePrefix": {
+            "value": "starr"
+        },
+        "location": {
+            "value": "eastus" 
+        },
+        "vmSize": {
+            "value": "Dsv3"
+        },
+        "userName": {
+            "value": "dstarr"
+        },
+        "pwd": {
+            "value": "password21$"
+        },
+        "dnsName": {
+            "value": "ama-starr-01" 
+        },
+        "publicIPAddressName": {
+            "value": "ama-starr-01-ip" 
+        }
+    }
+}

@@ -2,26 +2,23 @@
     "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
     "contentVersion": "1.0.0.0",
     "parameters": {
-        "vmNamePrefix": {
-            "value": "starr"
+        "adminUsername": {
+            "value": "" // TODO: Fill in parameter value
         },
-        "location": {
-            "value": "eastus" 
+        "adminPassword": {
+            "value": "" // TODO: Fill in parameter value
+        },
+        "dnsLabelPrefix": {
+            "value": "" // TODO: Fill in parameter value
+        },
+        "windowsOSVersion": {
+            "value": "2016-Datacenter"
         },
         "vmSize": {
-            "value": "Dsv3"
+            "value": "Standard_D2_v3"
         },
-        "userName": {
-            "value": "dstarr"
-        },
-        "pwd": {
-            "value": "password21$"
-        },
-        "dnsName": {
-            "value": "ama-starr-01" 
-        },
-        "publicIPAddressName": {
-            "value": "ama-starr-01-ip" 
+        "location": {
+            "value": "" // TODO: Fill in parameter value
         }
     }
 }

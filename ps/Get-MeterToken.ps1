@@ -2,20 +2,17 @@ $cAccessToken = Get-ClientAccessToken
 
 Write-Host "cAccessToken " $cAccessToken
 
-# Connect-AzAccount -AccessToken $cAccessToken -AccountId MSI@50342
-
-
-
 #---------------------------------------------------------------------
 # FUNCTIONS BELOW
 #---------------------------------------------------------------------
 
 function Get-ClientAccessToken() {
     
-    $secret = "ffu7Q~dOfEasfTLTlv6oXfcbPbTzDIJqGblks"
+    $issuerUrl = $env:MSI_ENDPOINT
+    $secret = $env:MSI_ENDPOINT
 
     $resourceURI = "https://management.azure.com/"
-    $uri = $env:MSI_ENDPOINT + "?resource=$resourceURI&api-version=2017-09-01"
+    $uri = $issuerUrl + "?resource=$resourceURI&api-version=2017-09-01"
 
     $headers = @{
         'Secret' = $secret
@@ -37,4 +34,6 @@ function Invoke-MeterEvent() {
         'Authorization' = 'Bearer ' + $accessToken
         'Content-Type'  = 'application/json'
     }
+
+    # FINISH THIS
 }

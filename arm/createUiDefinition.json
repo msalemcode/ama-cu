@@ -48,13 +48,29 @@
           "validationMessage": "Only alphanumeric characters are allowed, and the value must be 6-30 characters long."
         },
         "visible": true
-      }
+      },
+      {
+        "name": "appIdentity",
+        "toolTip": "App Identity",
+        "type": "Microsoft.ManagedIdentity.IdentitySelector",
+        "label": "Managed Identity Configuration",
+        "defaultValue": {
+            "systemAssignedIdentity": "OnOnly"
+        },
+        "options": {
+            "hideSystemAssignedIdentity": false,
+            "hideUserAssignedIdentity": true,
+            "readOnlySystemAssignedIdentity": true
+        },
+        "visible": true
+    }
     ],
     "steps": [],
     "outputs": {
       "adminUsername": "[basics('username')]",
       "adminPassword": "[basics('password').password]",
       "dnsLabelPrefix": "[basics('dnsPrefix')]",
+      "managedIdentity": "[basics('appIdentity')]",
       "location": "[location()]"
     }
   }

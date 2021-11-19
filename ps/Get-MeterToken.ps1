@@ -9,7 +9,7 @@ Write-Host "cAccessToken " $cAccessToken
 function Get-ClientAccessToken() {
     
     $issuerUrl = $env:MSI_ENDPOINT
-    $secret = $env:MSI_ENDPOINT
+    $secret = $env:MSI_SECRET
 
     $resourceURI = "https://management.azure.com/"
     $uri = $issuerUrl + "?resource=$resourceURI&api-version=2017-09-01"

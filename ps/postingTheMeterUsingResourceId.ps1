@@ -47,7 +47,8 @@ function Invoke-Meter() {
     # Set to use TLS 1.2
     [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls11, [Net.SecurityProtocolType]::Tls12;
 
-    $startTime = (Get-Date).AddMinutes(-60).ToString("yyyy-MM-ddTHH:mm:ssZ")
+    # set the offset for billing period.
+    $StartTime = (Get-Date).AddMinutes(-60).ToString("yyyy-MM-ddTHH:mm:ssZ")
 
     $Headers = @{
         "Authorization" = "$($Token.token_type) $($Token.access_token)"
@@ -57,7 +58,7 @@ function Invoke-Meter() {
         "resourceId"         = $ResourceUsageId
         "quantity"           = $Quantity 
         "dimension"          = $DimensionId
-        "effectiveStartTime" = $startTime
+        "effectiveStartTime" = $StartTime
         "planId"             = $PlanId
     } | ConvertTo-Json
 

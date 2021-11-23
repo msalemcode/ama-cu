@@ -4,7 +4,7 @@ A sample that will allow you to post events to metered billing in a Managed Appl
 
 ## Installation and usage
 
-1. Use the contents of the "arm" folder to create a ZIP file for your plan in Partner Center.
+1. Use the contents of the "arm" folder to create a ZIP file for your plan in Partner Center, or just use the "app.zip" file already there.
 1. Upload the new ZIP fle to the plan.
 1. Publish the plan.
 1. From Preview, purchase the plan.

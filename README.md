@@ -4,14 +4,15 @@ A sample that will allow you to posting events to metered billing in a Managed A
 
 ## Installation
 
+1. Options for getting the code:
+    1. Install git and clone this repo to the target VM.
+    1. Download the code [as a ZIP file](https://github.com/dstarr/ama-cu/archive/refs/heads/main.zip) from GitHub to the target VM.
 1. Use the contents of the `arm` folder to create a ZIP file for your plan in Partner Center, or just use the `app.zip`" file already in the repo.
 1. Upload the new ZIP file to the Azure Managed Application plan in Partner Center.
 1. Publish the plan.
 1. From Preview, purchase the plan.
 1. After deployment is complete, remote into the newly deployed VM.
-1. Options for getting the code:
-    1. Install git and clone this repo to the target VM.
-    1. Download the code [as a ZIP file](https://github.com/dstarr/ama-cu/archive/refs/heads/main.zip) from GitHub to the target VM.
+
 
 ## Usage
 

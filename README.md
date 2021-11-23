@@ -8,9 +8,10 @@ A sample that will allow you to posting events to metered billing in a Managed A
 1. Upload the new ZIP file to the Azure Managed Application plan in Partner Center.
 1. Publish the plan.
 1. From Preview, purchase the plan.
-1. After deployment is complete, remote into the VM.
-1. Install git on the VM.
-1. Clone this repo to the target VM
+1. After deployment is complete, remote into the newly deployed VM.
+1. Options for getting the code:
+    1. Install git and clone this repo to the target VM.
+    1. Download the code [as a ZIP file](https://github.com/dstarr/ama-cu/archive/refs/heads/main.zip) from GitHub to the target VM.
 
 ## Usage
 
@@ -19,5 +20,5 @@ A sample that will allow you to posting events to metered billing in a Managed A
 1. In PowerShell, navigate to the `ps` folder.
 1. Type `./RunIt/ps1`
 1. The results of the call will be show at the bottom of the terminal window after the script runs.
-    1. If there is an error - The meter did not get called or the meter is a duplicate of one sent earlier.
-    1. If the meter completes it will show the output of the JSON at the bottom of the screen.
+    1. If there is an error - The meter did not get called or the meter is a duplicate of one sent earlier. The error message will indicate which.
+    1. Then the meter has been posted successfully it will show the output of the reply JSON at the bottom of the screen.

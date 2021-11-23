@@ -5,7 +5,7 @@ function Invoke-Meter() {
     Param (
         [Parameter(Mandatory)]
         [string]
-        $DimensionName,
+        $DimensionId,
 
         [Parameter(Mandatory)]
         [string]
@@ -56,7 +56,7 @@ function Invoke-Meter() {
     $Body = @{ 
         "resourceId"         = $ResourceUsageId
         "quantity"           = $Quantity 
-        "dimension"          = $DimensionName
+        "dimension"          = $DimensionId
         "effectiveStartTime" = $startTime
         "planId"             = $PlanId
     } | ConvertTo-Json

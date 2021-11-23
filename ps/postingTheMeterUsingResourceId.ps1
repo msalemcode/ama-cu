@@ -27,7 +27,7 @@ function Invoke-Meter() {
 
     # Make sure the system identity has at least reader permission on the resource group through the deployment template
     $Headers = @{
-        "Authorization" = "$($Token.token_type) " + " " + "$($Token.access_token)"
+        "Authorization" = "$($Token.token_type) $($Token.access_token)"
         "Metadata"      = "true"
     }
     $ManagementUrl = "https://management.azure.com/subscriptions/" + $Metadata.compute.subscriptionId + "/resourceGroups/" + $Metadata.compute.resourceGroupName + "?api-version=2019-10-01"
@@ -47,7 +47,7 @@ function Invoke-Meter() {
     # Set to use TLS 1.2
     [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls11, [Net.SecurityProtocolType]::Tls12;
 
-    $LastHourMinusFiveMinutes = (Get-Date).AddMinutes(-60).ToString("yyyy-MM-ddTHH:mm:ssZ")
+    $startTime = (Get-Date).AddMinutes(-60).ToString("yyyy-MM-ddTHH:mm:ssZ")
 
     $Headers = @{
         "Authorization" = "$($Token.token_type) $($Token.access_token)"
@@ -57,7 +57,7 @@ function Invoke-Meter() {
         "resourceId"         = $ResourceUsageId
         "quantity"           = $Quantity 
         "dimension"          = $DimensionName
-        "effectiveStartTime" = $LastHourMinusFiveMinutes
+        "effectiveStartTime" = $startTime
         "planId"             = $PlanId
     } | ConvertTo-Json
 

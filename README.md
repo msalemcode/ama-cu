@@ -4,6 +4,8 @@ A sample that will allow you to posting events to metered billing in a Managed A
 
 ## Installation
 
+Perform the following from a remote session to the VM created during install.
+
 1. Options for getting the code:
     1. Install git and clone this repo to the target VM.
     1. Download the code [as a ZIP file](https://github.com/dstarr/ama-cu/archive/refs/heads/main.zip) from GitHub to the target VM.

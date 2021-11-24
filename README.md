@@ -4,11 +4,6 @@ A sample that will allow you to posting events to metered billing in a Managed A
 
 ## Installation
 
-Perform the following from a remote session to the VM created during install.
-
-1. Options for getting the code:
-    1. Install git and clone this repo to the target VM.
-    1. Download the code [as a ZIP file](https://github.com/dstarr/ama-cu/archive/refs/heads/main.zip) from GitHub to the target VM.
 1. Use the contents of the `arm` folder to create a ZIP file for your plan in Partner Center, or just use the `app.zip` file already in the repo.
 1. Upload the new ZIP file to the Azure Managed Application plan in Partner Center.
 1. Publish the plan.
@@ -18,6 +13,11 @@ Perform the following from a remote session to the VM created during install.
 
 ## Usage
 
+Perform the following from a remote session to the VM created during install.
+
+1. Options for getting the code:
+    1. Install git and clone this repo to the target VM.
+    1. Download the code [as a ZIP file](https://github.com/dstarr/ama-cu/archive/refs/heads/main.zip) from GitHub to the target VM.
 1. Open the [RunIt](./ps/RunIt.ps1) file and see the arguments you need to pass to the actual script.
 1. Provide the correct values for the arguments.
 1. In PowerShell, navigate to the `ps` folder.

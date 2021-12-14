@@ -24,11 +24,6 @@
       "type": "string",
       "defaultValue": "2019-Datacenter",
       "allowedValues": [
-        "2008-R2-SP1",
-        "2012-Datacenter",
-        "2012-R2-Datacenter",
-        "2016-Nano-Server",
-        "2016-Datacenter-with-Containers",
         "2016-Datacenter",
         "2019-Datacenter"
       ],
@@ -52,7 +47,7 @@
     }
   },
   "variables": {
-    "storageAccountName": "[concat(uniquestring(resourceGroup().id), 'sawinvm')]",
+    "storageAccountName": "[concat(uniquestring(resourceGroup().id), 'winvm')]",
     "nicName": "myVMNic",
     "addressPrefix": "10.0.0.0/16",
     "subnetName": "Subnet",
@@ -62,7 +57,7 @@
     "virtualNetworkName": "MyVNET",
     "subnetRef": "[resourceId('Microsoft.Network/virtualNetworks/subnets', variables('virtualNetworkName'), variables('subnetName'))]",
     "networkSecurityGroupName": "default-NSG",
-    "managedIdentityName": "[concat(variables('vmName'), 'ManagedIdentity')]"
+    "readerRole": "[concat('Microsoft.Authorization/roleDefinitions/', 'acdd72a7-3385-48ef-bd42-f606fba81ae7')]"
   },
   "resources": [
     {
@@ -171,6 +166,7 @@
       "identity": {
         "type": "systemAssigned"
       },
+
       "dependsOn": [
         "[resourceId('Microsoft.Storage/storageAccounts/', variables('storageAccountName'))]",
         "[resourceId('Microsoft.Network/networkInterfaces/', variables('nicName'))]"
@@ -215,6 +211,22 @@
             "storageUri": "[reference(resourceId('Microsoft.Storage/storageAccounts/', variables('storageAccountName'))).primaryEndpoints.blob]"
           }
         }
+      }
+    },
+    {
+      "apiVersion": "2020-04-01-preview",
+      "name": "[guid(resourceGroup().id)]",
+      // "scope": "[concat('Microsoft.Compute/virtualMachines/', variables('vmName'))]",
+      "type": "Microsoft.Authorization/roleAssignments",
+      "dependsOn": [
+        "[variables('vmName')]"
+      ],
+      "properties": {
+        "roleDefinitionId": "[variables('readerRole')]",
+        "principalId": "[reference(resourceId('Microsoft.Compute/virtualMachines', variables('vmName')), '2021-07-01', 'Full').identity.principalId]",
+        "delegatedManagedIdentityResourceId": "[resourceId('Microsoft.ManagedIdentity/systemAssignedIdentities', variables('vmName'))]",
+        "scope": "[resourceGroup().id]",
+        "principalType": "ServicePrincipal"
       }
     }
   ],

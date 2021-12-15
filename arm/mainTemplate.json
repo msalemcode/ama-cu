@@ -57,7 +57,8 @@
     "virtualNetworkName": "MyVNET",
     "subnetRef": "[resourceId('Microsoft.Network/virtualNetworks/subnets', variables('virtualNetworkName'), variables('subnetName'))]",
     "networkSecurityGroupName": "default-NSG",
-    "readerRole": "[concat('Microsoft.Authorization/roleDefinitions/', 'acdd72a7-3385-48ef-bd42-f606fba81ae7')]"
+    "readerRole": "[concat('Microsoft.Authorization/roleDefinitions/', 'acdd72a7-3385-48ef-bd42-f606fba81ae7')]",
+    "dnsName": "[concat(parameters('dnsLabelPrefix'), uniquestring(resourceGroup().id))]"
   },
   "resources": [
     {
@@ -79,7 +80,7 @@
       "properties": {
         "publicIPAllocationMethod": "Dynamic",
         "dnsSettings": {
-          "domainNameLabel": "[parameters('dnsLabelPrefix')]"
+          "domainNameLabel": "[variables('dnsName')]"
         }
       }
     },
@@ -216,15 +217,14 @@
     {
       "apiVersion": "2020-04-01-preview",
       "name": "[guid(resourceGroup().id)]",
-      // "scope": "[concat('Microsoft.Compute/virtualMachines/', variables('vmName'))]",
       "type": "Microsoft.Authorization/roleAssignments",
       "dependsOn": [
-        "[variables('vmName')]"
+        "[resourceId('Microsoft.Compute/virtualMachines', variables('vmName'))]"
       ],
       "properties": {
-        "roleDefinitionId": "[variables('readerRole')]",
-        "principalId": "[reference(resourceId('Microsoft.Compute/virtualMachines', variables('vmName')), '2021-07-01', 'Full').identity.principalId]",
-        "delegatedManagedIdentityResourceId": "[resourceId('Microsoft.ManagedIdentity/systemAssignedIdentities', variables('vmName'))]",
+        "roleDefinitionId": "[subscriptionResourceId('Microsoft.Authorization/roleDefinitions', 'acdd72a7-3385-48ef-bd42-f606fba81ae7')]",
+        "principalId": "[reference(variables('vmName'),'2019-07-01', 'Full').identity.principalId]",
+        "delegatedManagedIdentityResourceId": "[resourceId('Microsoft.Compute/virtualMachines', variables('vmName'))]", 
         "scope": "[resourceGroup().id]",
         "principalType": "ServicePrincipal"
       }

@@ -50,27 +50,29 @@
         "visible": true
       },
       {
-        "name": "appIdentity",
-        "toolTip": "App Identity",
+        "name": "identity",
         "type": "Microsoft.ManagedIdentity.IdentitySelector",
         "label": "Managed Identity Configuration",
+        "toolTip": {
+          "systemAssignedIdentity": "Enable system assigned identity to grant the resource access to other existing resources.",
+          "userAssignedIdentity": "Add user assigned identities to grant the resource access to other existing resources."
+        },
         "defaultValue": {
-            "systemAssignedIdentity": "OnOnly"
+          "systemAssignedIdentity": "OffOnly"
         },
         "options": {
-            "hideSystemAssignedIdentity": false,
-            "hideUserAssignedIdentity": true,
-            "readOnlySystemAssignedIdentity": true
+          "hideSystemAssignedIdentity": true,
+          "hideUserAssignedIdentity": false
         },
         "visible": true
-    }
+      }
     ],
     "steps": [],
     "outputs": {
       "adminUsername": "[basics('username')]",
       "adminPassword": "[basics('password').password]",
       "dnsLabelPrefix": "[basics('dnsPrefix')]",
-      "managedIdentity": "[basics('appIdentity')]",
+      "managedIdentity": "[basics('identity')]",
       "location": "[location()]"
     }
   }

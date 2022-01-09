@@ -19,7 +19,10 @@ function Invoke-Meter() {
     # Get system identity access token
     # You will use this token for calling the management API
     $ManagementTokenUrl = "http://169.254.169.254/Metadata/identity/oauth2/token?api-version=2018-02-01&resource=https%3A%2F%2Fmanagement.azure.com%2F"
-    $Token = Invoke-RestMethod -Headers @{"Metadata" = "true" } -Uri $ManagementTokenUrl 
+    $Token = Invoke-RestMethod -Headers @{ "Metadata" = "true" } -Uri $ManagementTokenUrl
+    
+    # As per docs to fetch the resource Id for the app from the OAuth response
+    $ManagedAppResourceId = $Token.resource
 
     # Get subscription and resource group
     $MetadataUrl = "http://169.254.169.254/Metadata/instance?api-version=2019-06-01"
@@ -45,7 +48,7 @@ function Invoke-Meter() {
     $Token = Invoke-RestMethod -Headers @{"Metadata" = "true" } -Uri $MeteringApiTokenUrl 
 
     # Set to use TLS 1.2
-    [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls11, [Net.SecurityProtocolType]::Tls12;
+    [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12;
 
     # set the offset for billing period.
     $StartTime = (Get-Date).AddMinutes(-60).ToString("yyyy-MM-ddTHH:mm:ssZ")

@@ -58,11 +58,11 @@
           "userAssignedIdentity": "Add user assigned identities to grant the resource access to other existing resources."
         },
         "defaultValue": {
-          "systemAssignedIdentity": "OffOnly"
+          "systemAssignedIdentity": "OnOnly"
         },
         "options": {
-          "hideSystemAssignedIdentity": true,
-          "hideUserAssignedIdentity": false
+          "hideSystemAssignedIdentity": false,
+          "hideUserAssignedIdentity": true
         },
         "visible": true
       }

@@ -1,10 +1,10 @@
-# AMA-CU
+# AMA-CU - VM Offer Type
 
 A sample that will allow you to posting events to metered billing in a Managed Application from a VM. The VM is deployed into the managed resource group.
 
 ## Installation
 
-1. Use the contents of the `arm` folder to create a ZIP file for your plan in Partner Center, or just use the `app.zip` file already in the repo.
+1. Use the contents of the `/vm/arm` folder to create a ZIP file for your plan in Partner Center, or just use the `app.zip` file already in the repo.
 1. Upload the new ZIP file to the Azure Managed Application plan in Partner Center.
 1. Publish the plan.
 1. From Preview, purchase the plan.

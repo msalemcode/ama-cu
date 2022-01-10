@@ -49,12 +49,8 @@ function Invoke-Meter() {
         "planId"             = $PlanId
     } | ConvertTo-Json
 
-    try {
-
-        # Post the meter
-        $MeterCallResponse = Invoke-RestMethod 'https://marketplaceapi.microsoft.com/api/usageEvent?api-version=2018-08-31' -Method 'POST' -ContentType "application/json" -Headers $Headers -Body $Body -Verbose
-    }
-
+    # Post the meter
+    $MeterCallResponse = Invoke-RestMethod 'https://marketplaceapi.microsoft.com/api/usageEvent?api-version=2018-08-31' -Method 'POST' -ContentType "application/json" -Headers $Headers -Body $Body -Verbose
 
     Write-Host "-----------------------------------------------"
     Write-Host ($MeterCallResponse | ConvertTo-Json)

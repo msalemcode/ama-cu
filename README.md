@@ -1,6 +1,6 @@
-# AMA-CU - VM Offer Type
+# Post a Metered Billing Event From an Azure Managed App
 
-A sample that will allow you to posting events to metered billing in a Managed Application from a VM. The VM is deployed into the managed resource group.
+A sample that will allow you to posting events to metered billing API in a Managed Application from a VM. The VM is deployed into the managed resource group.
 
 ## Installation
 

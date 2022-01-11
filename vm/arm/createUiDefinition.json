@@ -48,23 +48,6 @@
           "validationMessage": "Only alphanumeric characters are allowed, and the value must be 6-30 characters long."
         },
         "visible": true
-      },
-      {
-        "name": "identity",
-        "type": "Microsoft.ManagedIdentity.IdentitySelector",
-        "label": "Managed Identity Configuration",
-        "toolTip": {
-          "systemAssignedIdentity": "Enable system assigned identity to grant the resource access to other existing resources.",
-          "userAssignedIdentity": "Add user assigned identities to grant the resource access to other existing resources."
-        },
-        "defaultValue": {
-          "systemAssignedIdentity": "OnOnly"
-        },
-        "options": {
-          "hideSystemAssignedIdentity": false,
-          "hideUserAssignedIdentity": true
-        },
-        "visible": true
       }
     ],
     "steps": [],
@@ -72,7 +55,6 @@
       "adminUsername": "[basics('username')]",
       "adminPassword": "[basics('password').password]",
       "dnsLabelPrefix": "[basics('dnsPrefix')]",
-      "managedIdentity": "[basics('identity')]",
       "location": "[location()]"
     }
   }

@@ -24,7 +24,6 @@
       "type": "string",
       "defaultValue": "2019-Datacenter",
       "allowedValues": [
-        "2016-Datacenter",
         "2019-Datacenter"
       ],
       "metadata": {
@@ -47,7 +46,7 @@
     }
   },
   "variables": {
-    "storageAccountName": "[concat(uniquestring(resourceGroup().id), 'winvm')]",
+    "storageAccountName": "[concat(uniquestring(resourceGroup().id), 'sawinvm')]",
     "nicName": "myVMNic",
     "addressPrefix": "10.0.0.0/16",
     "subnetName": "Subnet",
@@ -61,7 +60,7 @@
   "resources": [
     {
       "type": "Microsoft.Storage/storageAccounts",
-      "apiVersion": "2021-06-01",
+      "apiVersion": "2019-06-01",
       "name": "[variables('storageAccountName')]",
       "location": "[parameters('location')]",
       "sku": {
@@ -85,7 +84,7 @@
     {
       "comments": "Default Network Security Group for template",
       "type": "Microsoft.Network/networkSecurityGroups",
-      "apiVersion": "2020-11-01",
+      "apiVersion": "2019-08-01",
       "name": "[variables('networkSecurityGroupName')]",
       "location": "[parameters('location')]",
       "properties": {
@@ -116,7 +115,7 @@
       ],
       "properties": {
         "addressSpace": {
-          "addressPrefixes": [ "[variables('addressPrefix')]" ]
+          "addressPrefixes": ["[variables('addressPrefix')]"]
         },
         "subnets": [
           {
@@ -165,7 +164,6 @@
       "identity": {
         "type": "systemAssigned"
       },
-
       "dependsOn": [
         "[resourceId('Microsoft.Storage/storageAccounts/', variables('storageAccountName'))]",
         "[resourceId('Microsoft.Network/networkInterfaces/', variables('nicName'))]"
@@ -210,6 +208,21 @@
             "storageUri": "[reference(resourceId('Microsoft.Storage/storageAccounts/', variables('storageAccountName'))).primaryEndpoints.blob]"
           }
         }
+      }
+    },
+    {
+      "apiVersion": "2020-04-01-preview",
+      "name": "[guid(resourceGroup().id)]",
+      "type": "Microsoft.Authorization/roleAssignments",
+      "dependsOn": [
+        "[resourceId('Microsoft.Compute/virtualMachines', variables('vmName'))]"
+      ],
+      "properties": {
+        "roleDefinitionId": "[subscriptionResourceId('Microsoft.Authorization/roleDefinitions', 'acdd72a7-3385-48ef-bd42-f606fba81ae7')]",
+        "principalId": "[reference(variables('vmName'),'2019-07-01', 'Full').identity.principalId]",
+        "delegatedManagedIdentityResourceId": "[resourceId('Microsoft.Compute/virtualMachines', variables('vmName'))]", 
+        "scope": "[resourceGroup().id]",
+        "principalType": "ServicePrincipal"
       }
     }
   ],

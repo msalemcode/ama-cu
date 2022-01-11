@@ -2,20 +2,16 @@
 
 A sample that will allow you to posting events to metered billing API in a Managed Application from a VM. The VM is deployed into the managed resource group.
 
-## Installation
+## Installation from Partner Center Preview
 
 1. Use the contents of the `/vm/arm` folder to create a ZIP file for your plan in Partner Center, or just use the `app.zip` file already in the repo.
 1. Upload the ZIP file to the Technical Configuration page of the Azure Managed Application plan in Partner Center.
 1. Publish the plan. It will take some time for the plan to reach Preview stage.
 1. From Preview, purchase the plan. 
-    1. Do not purchase the plan from the same Azure Tenant as the one used to publish the plan. If you do so, the script referenced later will error.
-    1. Use the `East US` region using this example to ensure support for the VM SKU specified in the ARM template.
-
+    - Do not purchase the plan from the same Azure Tenant as the one used to publish the plan. If you do so, the script referenced later will error.
+    - Use the `East US` region using this example to ensure support for the VM SKU specified in the ARM template.
 
 ## Usage from the Managed Application VM
-
-Perform the following from a remote session to the VM created during install. You will execute the commands from inside the VM.
-
 
 1. After deployment is complete, remote into the newly deployed VM.
 1. Open Internet Explorer (IE).

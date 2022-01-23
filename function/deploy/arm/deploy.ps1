@@ -1,5 +1,9 @@
+
+while (!$ResourceGroupName) {
+    $ResourceGroupName = Read-Host -Prompt 'Input your Resource Group name'
+}    
+
 $TemplateDeploymentname = New-Guid
-$ResourceGroupName = "amafunc01"
 $TemplateFile = ".\maintemplate.json" 
 $TemplateParameterFile = ".\maintemplate.parameters.json"
 

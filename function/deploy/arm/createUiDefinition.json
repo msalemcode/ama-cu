@@ -44,22 +44,23 @@
                         "name": "txtPrefix",
                         "type": "Microsoft.Common.TextBox",
                         "label": "Resource Prefix",
-                        "toolTip": "All resource names will start with this value.",
+                        "toolTip": "All resource names will start with this value. It must be exactly 3 characters long.",
                         "constraints": {
                             "required": true,
-                            "regex": "^[a-z][a-z0-9][a-z0-9]$",
+                            "regex": "^[a-z][a-z0-9]{2,2}$",
                             "validationMessage": "Only alphanumeric lowercase characters are allowed, and the value must be 3 characters long."
                         },
                         "visible": true
                     }
-                ],
-                "outputs": {
-                    "AppServicePlan": "[steps('settings').ddlAppServicePlanSku]",
-                    "ResourceLocation": "[location()]",
-                    "ResourceNamePrefix": "[steps('settings').txtPrefix]"
+                ]
 
-                }
             }
-        ]
+        ],
+        "outputs": {
+            "location": "[location()]",
+            "AppServicePlan": "[steps('settings').ddlAppServicePlanSku]",
+            "ResourceLocation": "[location()]",
+            "ResourceNamePrefix": "[steps('settings').txtPrefix]"
+        }
     }
 }

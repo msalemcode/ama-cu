@@ -8,15 +8,6 @@
                 "description": "This prefix will be used for all the resources created by this template."
             }
         },
-        "ResourceLocation": {
-            "type": "string",
-            "defaultValue": "East US",
-            "allowedValues": [
-                "East US",
-                "East US 2",
-                "West US 2"
-            ]
-        },
         "AppServicePlan": {
             "type": "string",
             "defaultValue": "B1",
@@ -31,20 +22,19 @@
             }
         },
         "location": {
-        "type": "string",
-        "defaultValue": "[resourceGroup().location]",
-        "metadata": {
-            "description": "Location for all resources."
+            "type": "string",
+            "defaultValue": "[resourceGroup().location]",
+            "metadata": {
+                "description": "Location for all resources."
+            }
         }
-    }
     },
     "variables": {
         "AppServicePlanName": "[concat(parameters('ResourceNamePrefix'), uniqueString(resourceGroup().id), 'as')]",
         "FunctionAppName": "[concat(parameters('ResourceNamePrefix'), uniqueString(resourceGroup().id), 'func')]",
         "FunctionStorageName": "[concat(replace(parameters('ResourceNamePrefix'), '-', ''), uniqueString(resourceGroup().id))]",
-        "Location": "[parameters('ResourceLocation')]",
         "PackageURI": "https://github.com/dstarr/ama-cu/blob/main/function/deploy/function/func.zip?raw=true",
-        "ContributorRoleDefinitionId": "[concat('/subscriptions/', subscription().subscriptionId, '/providers/Microsoft.Authorization/roleDefinitions/', 'b24988ac-6180-42a0-ab88-20f7382dd24c')]",
+        "ContributorRoleDefinitionId": "[concat('/subscriptions/', subscription().subscriptionId, '/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c')]",
         "ResourceGroupRoleAssignmentId": "[guid(concat(resourceGroup().id, 'contributor'))]"
     },
     "resources": [
@@ -52,7 +42,7 @@
             "type": "Microsoft.Storage/storageAccounts",
             "name": "[variables('FunctionStorageName')]",
             "apiVersion": "2021-06-01",
-            "location": "[variables('location')]",
+            "location": "[parameters('location')]",
             "kind": "Storage",
             "sku": {
                 "name": "Standard_LRS"
@@ -136,7 +126,7 @@
                 "[resourceId('Microsoft.Web/Sites', variables('FunctionAppName'))]"
             ],
             "properties": {
-                "roleDefinitionId": "resourceId(variables('ContributorRoleDefinitionId'))]",
+                "roleDefinitionId": "[variables('ContributorRoleDefinitionId')]",
                 "principalId": "[reference(concat('Microsoft.Web/sites/', variables('FunctionAppName')), '2021-02-01', 'Full').identity.principalId]",
                 "scope": "[resourceGroup().id]",
                 "principalType": "ServicePrincipal"

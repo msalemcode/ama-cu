@@ -59,7 +59,6 @@
         "outputs": {
             "location": "[location()]",
             "AppServicePlan": "[steps('settings').ddlAppServicePlanSku]",
-            "ResourceLocation": "[location()]",
             "ResourceNamePrefix": "[steps('settings').txtPrefix]"
         }
     }

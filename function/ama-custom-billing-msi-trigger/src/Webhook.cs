@@ -8,12 +8,17 @@ using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Azure.WebJobs.Extensions.Http;
+using System.Collections.Generic;
+using System.IO;
+using ErrorEventArgs = Newtonsoft.Json.Serialization.ErrorEventArgs;
+using Microsoft.AspNetCore.Mvc;
 
 namespace ManagedWebhook
 {
     public static class Webhook
     {
-
         [FunctionName("Webhook")]
         public static async Task<IActionResult> Run(
             [HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "resource")] HttpRequest req,
@@ -38,11 +43,11 @@ namespace ManagedWebhook
             string dt = req.Query["effectiveStartTime"];
 
             if(quantity == null)
-                new BadRequestObjectResult("Please pass a quantity on the query string or in the request body");
+                return new BadRequestObjectResult("Please pass a quantity on the query string or in the request body");
 
 
             if(dimension == null)
-                new BadRequestObjectResult("Please pass a dimension on the query string or in the request body");
+                return new BadRequestObjectResult("Please pass a dimension on the query string or in the request body");
 
             if(dt != null)
                 effectiveStartTime=DateTime.Parse(dt);
@@ -70,13 +75,17 @@ namespace ManagedWebhook
                     if (response.IsSuccessStatusCode)
                     {
                             log.LogTrace($"Successfully emitted a usage event. Reponse body: {responseBody}");
+                            return new OkObjectResult($"Successfully emitted a usage event. Reponse body: {responseBody}");
                     }
                     else
                     {
                             log.LogError($"Failed to emit a usage event. Error code: {response.StatusCode}. Failure cause: {response.ReasonPhrase}. Response body: {responseBody}");
+                            return new BadRequestObjectResult($"Failed to emit a usage event. Error code: {response.StatusCode}. Failure cause: {response.ReasonPhrase}. Response body: {responseBody}");
                     }
                     
                 }
+                else
+                        return new BadRequestObjectResult($"Failed to retreive application information");
             }
         }
 
@@ -154,7 +163,7 @@ namespace ManagedWebhook
             var usageEvent = new UsageEventDefinition
             {
                 ResourceId = resourceUsageId,
-                Quantity = quantity,
+                Quantity = double.Parse(quantity),
                 Dimension = dimension,
                 EffectiveStartTime = effectiveStartTime,
                 PlanId = planId

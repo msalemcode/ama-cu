@@ -1,0 +1,141 @@
+{
+    "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "storageAccountPrefix": {
+            "type": "string",
+            "metadata": {
+                "description": "Assign a prefix for the Storage account"
+            }
+        },
+        "storageAccountType": {
+            "type": "string",
+            "metadata": {
+                "description": "Assign Storage account type"
+            }
+        },
+        "SAASKeyForBacpac": {
+        "type": "securestring",
+        "defaultValue": ""
+        },
+        "location": {
+            "type": "string",
+            "defaultValue": "[resourceGroup().location]",
+            "metadata": {
+                "description": "Location for the resources."
+            }
+        },
+    "SQLServerName": {
+      "type": "string",
+      "metadata": {
+        "description": "Name of the database server (without database.windows.net)"
+      },
+      "defaultValue": "amademotestsqlserver" 
+    },
+    "SQLAdminLogin": {
+      "type": "string",
+      "metadata": {
+        "description": "SQL Admin login"
+      },
+      "defaultValue": "testusersa" 
+    },
+    "SQLAdminLoginPassword": {
+      "type": "securestring",
+      "metadata": {
+        "description": "SQL Admin password"
+      },
+      "defaultValue": "testpassword12345678!@" 
+    }
+    },
+    "variables": {
+        "storageName": "[concat(parameters('storageAccountPrefix'), uniqueString(resourceGroup().id))]",
+        "sqlDBName": "AMPSaaSDB",
+        "artifacts":   "[uri(deployment().properties.templateLink.uri, 'artifacts/AMPSaaSDB.bacpac')]"
+    },
+    "resources": [
+        {
+            "type": "Microsoft.Storage/storageAccounts",
+            "name": "[variables('storageName')]",
+            "apiVersion": "2021-08-01",
+            "location": "[parameters('location')]",
+            "sku": {
+                "name": "[parameters('storageAccountType')]"
+            },
+            "kind": "Storage",
+            "properties": {
+                "allowBlobPublicAccess": true
+            }
+        },
+
+    {
+      "type": "Microsoft.Sql/servers",
+      "apiVersion": "2015-05-01-preview",
+      "name": "[parameters('SQLServerName')]",
+      "location": "[resourceGroup().location]",
+      "properties": {
+        "administratorLogin": "[parameters('SQLAdminLogin')]",
+        "administratorLoginPassword": "[parameters('SQLAdminLoginPassword')]",
+        "version": "12.0"
+      },
+      "resources": [
+        {
+          "type": "firewallrules",
+          "name": "AllowAllAzureIps",
+          "location": "[resourceGroup().location]",
+          "apiVersion": "2015-05-01-preview",
+          "dependsOn": [
+            "[parameters('SQLServerName')]"
+          ],
+          "properties": {
+            "startIpAddress": "0.0.0.0",
+            "endIpAddress": "255.255.255.255"
+          }
+        }
+      ]
+    },
+    {
+      "type": "Microsoft.Sql/servers/databases",
+      "apiVersion": "2017-03-01-preview",
+      "name": "[concat(string(parameters('SQLServerName')), '/', string(variables('sqlDBName')))]",
+      "location": "[resourceGroup().location]",
+      "dependsOn": [
+        "[resourceId('Microsoft.Sql/servers', parameters('SQLServerName'))]"
+      ],
+      "sku": {
+        "name": "S0",
+        "tier": "Standard"
+      },
+      "kind": "v12.0,user",
+      "properties": {
+        "collation": "SQL_Latin1_General_CP1_CI_AS",
+        "maxSizeBytes": 268435456000,
+        "catalogCollation": "SQL_Latin1_General_CP1_CI_AS",
+        "zoneRedundant": false
+      },
+      "resources": [
+        {
+          "name": "Import",
+          "type": "extensions",
+          "apiVersion": "2014-04-01",
+          "dependsOn": [
+            "[resourceId('Microsoft.Sql/servers/databases', parameters('SQLServerName'), variables('sqlDBName'))]"
+          ],
+          "properties": {
+            "storageKeyType": "SharedAccessKey",
+            "storageKey": "[concat('?',parameters('SAASKeyForbacpac'))]",
+            "storageUri": "[variables('artifacts')]",
+            "administratorLogin": "[parameters('SQLAdminLogin')]",
+            "administratorLoginPassword": "[parameters('SQLAdminLoginPassword')]",
+            "operationMode": "Import"
+          }
+        }
+      ]
+    }
+
+
+
+
+           ],
+    "outputs": {
+    }
+}
